@@ -1,22 +1,15 @@
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
-public abstract class Piece extends JPanel {
+
+public abstract class Piece {
 	protected int x, y;
 	protected char color;
 	protected ImageIcon pieceIcon;
-	protected JLabel display;
 	public Piece(int x, int y, char color){
 		this.x = x;
 		this.y = y;
 		this.color = color;
-		display = new JLabel();
-		
-		this.setLayout(null);
-		this.setVisible(true);
-		
-		this.add(display);
+
 	}
 	public int getX() {
 		return x;
@@ -29,6 +22,12 @@ public abstract class Piece extends JPanel {
 	}
 	public void setY(int y) {
 		this.y = y;
+	}
+	public ImageIcon getPieceIcon() {
+		return pieceIcon;
+	}
+	public void setPieceIcon(ImageIcon pieceIcon) {
+		this.pieceIcon = pieceIcon;
 	}
 	public char getColor() {
 		return color;
