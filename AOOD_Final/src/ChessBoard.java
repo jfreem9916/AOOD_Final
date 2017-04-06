@@ -3,6 +3,10 @@ import java.awt.Color;
 import javax.swing.JFrame;
 
 public class ChessBoard extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5656815955239111516L;
 	private Tile[][] board;
 	private int width, height;
 	public ChessBoard(){
