@@ -20,9 +20,9 @@ public class DraggablePiece extends JPanel {
 		this.myPiece = myPiece;
 	}
 	
-	@Override
-	public boolean equals(Object o){
-		return myPiece.equals(((DraggablePiece) o).getMyPiece());
+	
+	public boolean equals(DraggablePiece p){
+		return myPiece.equals(p.getMyPiece());
 		
 	}
 }

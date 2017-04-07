@@ -139,7 +139,7 @@ public class ChessBoard extends JFrame {
 
 	public boolean isValidMove(Piece p, Tile targetTile, int targX, int targY) {
 		boolean output = true;
-		output = output && p.canReachTile(targX, targY);
+		//output = output && p.canReachTile(targX, targY);
 		return output;
 	}
 
