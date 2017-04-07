@@ -35,6 +35,14 @@ public abstract class Piece {
 	public void setColor(char color) {
 		this.color = color;
 	}
-
-
+	@Override
+	public boolean equals(Object o){
+		Piece p = (Piece)o;
+		if(p.getX() == this.getX() && p.getY() == this.getY() && this.getColor() == p.getColor()){
+			return true;
+		}
+		return false;
+		
+	}
+	public abstract boolean canReachTile(int x, int y);
 }

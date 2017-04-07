@@ -32,3 +32,6 @@
 /QueenW.png
 /RookB.png
 /RookW.png
+/DraggablePiece.class
+/ChessBoard$PieceClick.class
+/ChessBoard$PieceDrag.class

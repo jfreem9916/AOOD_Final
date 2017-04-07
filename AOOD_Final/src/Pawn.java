@@ -8,6 +8,17 @@ public class Pawn extends Piece {
 		pieceIcon = new ImageIcon(this.getClass().getResource("Pawn" + color + ".png"));
 	}
 
+	@Override
+	public boolean canReachTile(int x, int y) {
+		if(color == 'W'){
+			
+		}
+		else{
+			
+		}
+		return false;
+	}
+
 
 
 
