@@ -14,7 +14,6 @@ public class Tile extends JPanel{
 		this.piece = null;
 		
 		display = new JLabel();
-		this.setLayout(null);
 		this.setVisible(true);
 		this.add(display);
 		this.setBackground(bg);
@@ -24,5 +23,7 @@ public class Tile extends JPanel{
 	}
 	public void setPiece(Piece piece) {
 		this.piece = piece;
+		this.display.setIcon(piece.getPieceIcon());
+		
 	}
 }

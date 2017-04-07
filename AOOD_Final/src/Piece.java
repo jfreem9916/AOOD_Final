@@ -35,4 +35,6 @@ public abstract class Piece {
 	public void setColor(char color) {
 		this.color = color;
 	}
+
+
 }
