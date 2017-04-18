@@ -12,6 +12,9 @@ public class Pawn extends Piece {
 	@Override
 	public boolean canReachTile(int xCoord, int yCoord, boolean tF, char c) {
 		if(tF){
+			if(c == this.color){
+				return false;
+			}
 			if(this.color == 'B'){
 				if(yCoord == this.y + 1 && c != this.color && Math.abs(xCoord - this.x) == 1){
 					return true;

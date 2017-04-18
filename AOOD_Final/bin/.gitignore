@@ -35,3 +35,5 @@
 /DraggablePiece.class
 /ChessBoard$PieceClick.class
 /ChessBoard$PieceDrag.class
+/Rook.class
+/King.class

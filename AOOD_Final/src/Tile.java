@@ -16,13 +16,14 @@ public class Tile extends JPanel {
 		this.bg = bg;
 		this.setVisible(true);
 		this.setBackground(bg);
-
+		/*
 		if (isEmpty()) {
 			this.setBackground(this.bg);
 		} else {
 			this.setBackground(Color.green);
 
 		}
+		*/
 	}
 
 	public Piece getPiece() {
@@ -31,13 +32,14 @@ public class Tile extends JPanel {
 
 	public void setPiece(Piece piece) {
 		this.piece = piece;
+		/*
 		if (isEmpty()) {
 			this.setBackground(this.bg);
 		} else {
 			this.setBackground(Color.green);
 
 		}
-
+	*/
 	}
 
 	public boolean isEmpty() {

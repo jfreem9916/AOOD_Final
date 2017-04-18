@@ -72,6 +72,11 @@ public class ChessBoard extends JFrame {
 		this.addNewPiece('P', 'W', 7, 6);
 		this.addNewPiece('P', 'W', 0, 6);
 
+		this.addNewPiece('R', 'W', 0, 7);
+		this.addNewPiece('R', 'W', 7, 7);
+		
+		this.addNewPiece('K', 'W', 4, 7);
+		
 		this.addNewPiece('P', 'B', 0, 1);
 		this.addNewPiece('P', 'B', 1, 1);
 		this.addNewPiece('P', 'B', 2, 1);
@@ -80,6 +85,12 @@ public class ChessBoard extends JFrame {
 		this.addNewPiece('P', 'B', 5, 1);
 		this.addNewPiece('P', 'B', 6, 1);
 		this.addNewPiece('P', 'B', 7, 1);
+		
+		this.addNewPiece('R', 'B', 0, 0);
+		this.addNewPiece('R', 'B', 7, 0);
+		
+		this.addNewPiece('K', 'B', 4, 0);
+
 
 		this.repaintAll();
 
@@ -89,6 +100,12 @@ public class ChessBoard extends JFrame {
 		Piece p = null;
 		if (type == 'P') {
 			p = new Pawn(x, y, color);
+		}
+		else if(type == 'R'){
+			p = new Rook(x, y, color);
+		}
+		else if(type == 'K'){
+			p = new King(x, y, color);
 		}
 
 		if (board[x][y].getPiece() != null || p == null) {
@@ -156,6 +173,9 @@ public class ChessBoard extends JFrame {
 					}
 				}
 				if (jumpedPiece != null) {
+					if(jumpedPiece.getMyPiece() instanceof King){
+						//Game is won by one side
+					}
 					table.remove(jumpedPiece);
 				}
 			}
