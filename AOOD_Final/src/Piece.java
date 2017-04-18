@@ -53,5 +53,5 @@ public abstract class Piece {
 
 	}
 
-	public abstract boolean canReachTile(int x, int y);
+	public abstract boolean canReachTile(int x, int y, boolean tileFilled, char color);
 }

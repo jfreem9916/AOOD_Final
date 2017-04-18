@@ -62,8 +62,26 @@ public class ChessBoard extends JFrame {
 
 		currentPiece = null;
 
-		this.addNewPiece('P', 'W', 0, 7);
-		this.addNewPiece('P', 'B', 1, 7);
+		this.addNewPiece('P', 'W', 0, 6);
+		this.addNewPiece('P', 'W', 1, 6);
+		this.addNewPiece('P', 'W', 2, 6);
+		this.addNewPiece('P', 'W', 3, 6);
+		this.addNewPiece('P', 'W', 4, 6);
+		this.addNewPiece('P', 'W', 5, 6);
+		this.addNewPiece('P', 'W', 6, 6);
+		this.addNewPiece('P', 'W', 7, 6);
+		this.addNewPiece('P', 'W', 0, 6);
+
+		this.addNewPiece('P', 'B', 0, 1);
+		this.addNewPiece('P', 'B', 1, 1);
+		this.addNewPiece('P', 'B', 2, 1);
+		this.addNewPiece('P', 'B', 3, 1);
+		this.addNewPiece('P', 'B', 4, 1);
+		this.addNewPiece('P', 'B', 5, 1);
+		this.addNewPiece('P', 'B', 6, 1);
+		this.addNewPiece('P', 'B', 7, 1);
+
+		this.repaintAll();
 
 	}
 
@@ -120,26 +138,60 @@ public class ChessBoard extends JFrame {
 		Tile newTile = board[iIndex][jIndex];
 		Tile oldTile = board[p.getMyPiece().getX()][p.getMyPiece().getY()];
 
-		if (!newTile.isEmpty()) {
-			p.setBounds(p.getMyPiece().getX() * 85, p.getMyPiece().getY() * 85, 85, 85);
-			return;
-		}
-
 		if (isValidMove(p.getMyPiece(), newTile, iIndex, jIndex)) {
+			if (!newTile.isEmpty()) {
+				DraggablePiece jumpedPiece = null;
+
+				// Temporary, add custom method for computer
+				for (DraggablePiece dp : cpuPieces) {
+					if (dp.getBounds().getX() == newTile.getBounds().getX()
+							&& dp.getBounds().getY() == newTile.getBounds().getY()) {
+						jumpedPiece = dp;
+					}
+				}
+				for (DraggablePiece dp : playerPieces) {
+					if (dp.getBounds().getX() == newTile.getBounds().getX()
+							&& dp.getBounds().getY() == newTile.getBounds().getY()) {
+						jumpedPiece = dp;
+					}
+				}
+				if (jumpedPiece != null) {
+					table.remove(jumpedPiece);
+				}
+			}
 			newTile.setPiece(oldTile.getPiece());
 			oldTile.setPiece(null);
+
 			p.setBounds(newTile.getBounds());
 			p.getMyPiece().setX(iIndex);
 			p.getMyPiece().setY(jIndex);
-		} else {
 
+			if (p.getMyPiece() instanceof Pawn) {
+				((Pawn) p.getMyPiece()).moved();
+				if (p.getMyPiece().y == 0 && p.getMyPiece().getColor() == 'W') {
+					//Promote Piece
+				}
+				if (p.getMyPiece().y == 7 && p.getMyPiece().getColor() == 'B') {
+					//Promote Piece
+				}
+			}
+
+		} else {
+			p.setBounds(oldTile.getBounds());
 		}
 
 	}
 
 	public boolean isValidMove(Piece p, Tile targetTile, int targX, int targY) {
+		boolean tileFilled = false;
+		char c = ' ';
+		if (!targetTile.isEmpty()) {
+			tileFilled = true;
+			c = targetTile.getPiece().getColor();
+		}
+
 		boolean output = true;
-		//output = output && p.canReachTile(targX, targY);
+		output = output && p.canReachTile(targX, targY, tileFilled, c);
 		return output;
 	}
 
