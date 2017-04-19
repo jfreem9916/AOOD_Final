@@ -74,9 +74,16 @@ public class ChessBoard extends JFrame {
 
 		this.addNewPiece('R', 'W', 0, 7);
 		this.addNewPiece('R', 'W', 7, 7);
-		
+
+		this.addNewPiece('N', 'W', 1, 7);
+		this.addNewPiece('N', 'W', 6, 7);
+
+		this.addNewPiece('B', 'W', 2, 7);
+		this.addNewPiece('B', 'W', 5, 7);
+
 		this.addNewPiece('K', 'W', 4, 7);
-		
+		this.addNewPiece('Q', 'W', 3, 7);
+
 		this.addNewPiece('P', 'B', 0, 1);
 		this.addNewPiece('P', 'B', 1, 1);
 		this.addNewPiece('P', 'B', 2, 1);
@@ -85,12 +92,18 @@ public class ChessBoard extends JFrame {
 		this.addNewPiece('P', 'B', 5, 1);
 		this.addNewPiece('P', 'B', 6, 1);
 		this.addNewPiece('P', 'B', 7, 1);
-		
+
 		this.addNewPiece('R', 'B', 0, 0);
 		this.addNewPiece('R', 'B', 7, 0);
-		
-		this.addNewPiece('K', 'B', 4, 0);
 
+		this.addNewPiece('N', 'B', 1, 0);
+		this.addNewPiece('N', 'B', 6, 0);
+
+		this.addNewPiece('B', 'B', 2, 0);
+		this.addNewPiece('B', 'B', 5, 0);
+
+		this.addNewPiece('K', 'B', 4, 0);
+		this.addNewPiece('Q', 'B', 3, 0);
 
 		this.repaintAll();
 
@@ -100,12 +113,16 @@ public class ChessBoard extends JFrame {
 		Piece p = null;
 		if (type == 'P') {
 			p = new Pawn(x, y, color);
-		}
-		else if(type == 'R'){
+		} else if (type == 'R') {
 			p = new Rook(x, y, color);
-		}
-		else if(type == 'K'){
+		} else if (type == 'K') {
 			p = new King(x, y, color);
+		} else if (type == 'B') {
+			p = new Bishop(x, y, color);
+		} else if (type == 'Q') {
+			p = new Queen(x, y, color);
+		} else if (type == 'N') {
+			p = new Knight(x, y, color);
 		}
 
 		if (board[x][y].getPiece() != null || p == null) {
@@ -159,7 +176,6 @@ public class ChessBoard extends JFrame {
 			if (!newTile.isEmpty()) {
 				DraggablePiece jumpedPiece = null;
 
-				// Temporary, add custom method for computer
 				for (DraggablePiece dp : cpuPieces) {
 					if (dp.getBounds().getX() == newTile.getBounds().getX()
 							&& dp.getBounds().getY() == newTile.getBounds().getY()) {
@@ -173,8 +189,8 @@ public class ChessBoard extends JFrame {
 					}
 				}
 				if (jumpedPiece != null) {
-					if(jumpedPiece.getMyPiece() instanceof King){
-						//Game is won by one side
+					if (jumpedPiece.getMyPiece() instanceof King) {
+						// Game is won by one side
 					}
 					table.remove(jumpedPiece);
 				}
@@ -189,10 +205,10 @@ public class ChessBoard extends JFrame {
 			if (p.getMyPiece() instanceof Pawn) {
 				((Pawn) p.getMyPiece()).moved();
 				if (p.getMyPiece().y == 0 && p.getMyPiece().getColor() == 'W') {
-					//Promote Piece
+					// Promote Piece
 				}
 				if (p.getMyPiece().y == 7 && p.getMyPiece().getColor() == 'B') {
-					//Promote Piece
+					// Promote Piece
 				}
 			}
 
@@ -211,8 +227,27 @@ public class ChessBoard extends JFrame {
 		}
 
 		boolean output = true;
-		output = output && p.canReachTile(targX, targY, tileFilled, c);
+		output = output && p.canReachTile(targX, targY, tileFilled, c) && this.pathClear(p, targX, targY);
+
 		return output;
+	}
+
+	private boolean pathClear(Piece p, int targX, int targY) {
+		if(p instanceof Knight){
+			return true;
+		}
+		else if(p instanceof Pawn){
+			return true;
+		}
+		else if(p instanceof Rook){
+			if(p.getX() != targX){
+
+			}
+			else{
+				
+			}
+		}
+		return true;
 	}
 
 	private void repaintAll() {
