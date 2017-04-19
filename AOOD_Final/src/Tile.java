@@ -45,4 +45,12 @@ public class Tile extends JPanel {
 	public boolean isEmpty() {
 		return piece == null;
 	}
+	
+
+	public boolean equalsTile(Tile t){
+		if(t.getX() == this.getX() && t.getY() == this.getY()){
+			return true;
+		}
+		return false;
+	}
 }

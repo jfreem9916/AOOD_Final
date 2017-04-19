@@ -171,6 +171,10 @@ public class ChessBoard extends JFrame {
 
 		Tile newTile = board[iIndex][jIndex];
 		Tile oldTile = board[p.getMyPiece().getX()][p.getMyPiece().getY()];
+		if (oldTile.equalsTile(newTile)) {
+			p.setBounds(p.getMyPiece().getX() * 85, p.getMyPiece().getY() * 85, 85, 85);
+			return;
+		}
 
 		if (isValidMove(p.getMyPiece(), newTile, iIndex, jIndex)) {
 			if (!newTile.isEmpty()) {
@@ -233,20 +237,37 @@ public class ChessBoard extends JFrame {
 	}
 
 	private boolean pathClear(Piece p, int targX, int targY) {
-		if(p instanceof Knight){
-			return true;
-		}
-		else if(p instanceof Pawn){
-			return true;
-		}
-		else if(p instanceof Rook){
-			if(p.getX() != targX){
+		if (p instanceof Rook) {
+			int stepVal = 0;
 
-			}
-			else{
-				
+			if (p.getX() != targX) {
+				if (p.getX() > targX) {
+					stepVal = -1;
+				} else if (p.getX() < targX) {
+					stepVal = 1;
+				}
+				for (int i = p.getX() + stepVal; i != targX; i = i + stepVal) {
+					if (!this.board[i][targY].isEmpty()) {
+						return false;
+					}
+				}
+			} else {
+				if (p.getY() > targY) {
+					stepVal = -1;
+				} else if (p.getY() < targY) {
+					stepVal = 1;
+				}
+				for (int i = p.getY() + stepVal; i != targY; i = i + stepVal) {
+					if (!this.board[targX][i].isEmpty()) {
+						return false;
+					}
+				}
 			}
 		}
+		
+		
+		
+		
 		return true;
 	}
 
