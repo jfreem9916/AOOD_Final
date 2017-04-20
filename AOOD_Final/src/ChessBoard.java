@@ -264,7 +264,73 @@ public class ChessBoard extends JFrame {
 				}
 			}
 		}
-		
+		else if(p instanceof Bishop) {
+			int xStepVal = 0;
+			int yStepVal = 0;
+			if (p.getX() > targX) {
+				xStepVal = -1;
+			} else if (p.getX() < targX) {
+				xStepVal = 1;
+			}
+			if (p.getY() > targY) {
+				yStepVal = -1;
+			} else if (p.getY() < targY) {
+				yStepVal = 1;
+			}
+			int tempX = p.getX()+xStepVal;
+			int tempY = p.getY()+yStepVal;
+			int netChange = Math.abs(p.getX() -targX);
+			for(int i = 0; i < netChange-1; i++){
+				if (!this.board[tempX][tempY].isEmpty()) {
+					return false;
+				}
+				tempX+=xStepVal;
+				tempY+=yStepVal;
+				
+			}
+		}
+		else if(p instanceof Queen){
+			int xStepVal = 0;
+			int yStepVal = 0;
+			if (p.getX() > targX) {
+				xStepVal = -1;
+			} else if (p.getX() < targX) {
+				xStepVal = 1;
+			}
+			if (p.getY() > targY) {
+				yStepVal = -1;
+			} else if (p.getY() < targY) {
+				yStepVal = 1;
+			}
+			
+			
+			if(xStepVal == 0){
+				for (int i = p.getY() + yStepVal; i != targY; i = i + yStepVal) {
+					if (!this.board[targX][i].isEmpty()) {
+						return false;
+					}
+				}
+			}
+			else if(yStepVal == 0){
+				for (int i = p.getX() + xStepVal; i != targX; i = i + xStepVal) {
+					if (!this.board[i][targY].isEmpty()) {
+						return false;
+					}
+				}
+			}
+			else{
+				int tempX = p.getX()+xStepVal;
+				int tempY = p.getY()+yStepVal;
+				int netChange = Math.abs(p.getX() -targX);
+				for(int i = 0; i < netChange-1; i++){
+					if (!this.board[tempX][tempY].isEmpty()) {
+						return false;
+					}
+					tempX+=xStepVal;
+					tempY+=yStepVal;
+				}
+			}
+		}
 		
 		
 		
