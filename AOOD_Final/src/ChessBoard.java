@@ -192,6 +192,7 @@ public class ChessBoard extends JFrame {
 						jumpedPiece = dp;
 					}
 				}
+				System.out.println(jumpedPiece);
 				if (jumpedPiece != null) {
 					if (jumpedPiece.getMyPiece() instanceof King) {
 						// Game is won by one side
