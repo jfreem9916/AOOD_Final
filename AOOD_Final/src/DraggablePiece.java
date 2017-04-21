@@ -18,6 +18,8 @@ public class DraggablePiece extends JPanel {
 	}
 	public void setMyPiece(Piece myPiece) {
 		this.myPiece = myPiece;
+		display.setIcon(myPiece.getPieceIcon());
+
 	}
 	
 	

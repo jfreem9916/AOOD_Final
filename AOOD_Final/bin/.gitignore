@@ -11,7 +11,6 @@
 /Player.class
 /Queen.class
 /Rook.class
-/RookB.png
-/RookW.png
-/Thumbs.db
 /Tile.class
+/PromotionSelect.class
+/CPU.class

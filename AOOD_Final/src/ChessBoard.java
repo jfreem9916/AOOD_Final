@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -7,8 +8,10 @@ import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 public class ChessBoard extends JFrame {
 	/**
@@ -20,11 +23,35 @@ public class ChessBoard extends JFrame {
 	private int width, height;
 	private ArrayList<DraggablePiece> playerPieces;
 	private ArrayList<DraggablePiece> cpuPieces;
-
+	private CPU cpu;
 	private DraggablePiece currentPiece;
 
 	public ChessBoard() {
 		super("Chess");
+
+		Font myFont = new Font("Apple Chancery", Font.PLAIN, 16);
+		Color myBrown = new Color(147, 88, 28);
+		Color myWhite = new Color(242, 240, 215);
+
+		UIManager.put("OptionPane.background", myBrown);
+		UIManager.put("OptionPane.messageForeground", myWhite);
+		UIManager.put("OptionPane.messageDialogTitle", myBrown);
+		UIManager.put("Panel.background", myBrown);
+		UIManager.put("OptionPane.messageFont", myFont);
+		UIManager.put("Button.background", myBrown);
+		UIManager.put("Button.foreground", myWhite);
+		UIManager.put("Button.select", myWhite);
+		UIManager.put("Button.font", myFont);
+		UIManager.put("Menu.selectionBackground", myBrown);
+		UIManager.put("Menu.selectionForeground", myBrown);
+		UIManager.put("MenuItem.selectionBackground", myWhite);
+		UIManager.put("MenuItem.selectionForeground", myBrown);
+		UIManager.put("MenuItem.font", myFont);
+		UIManager.put("Menu.font", myFont);
+
+		UIManager.put("Label.background", myBrown);
+		UIManager.put("Label.foreground", myWhite);
+		UIManager.put("Label.font", myFont);
 
 		width = 696;
 		height = 718;
@@ -43,13 +70,13 @@ public class ChessBoard extends JFrame {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if (j % 2 == i % 2) {
-					Tile newTile = new Tile(new Color(242, 240, 215));
+					Tile newTile = new Tile(myWhite);
 					board[i][j] = newTile;
 					table.add(newTile);
 					newTile.setBounds(i * tileSize, j * tileSize, tileSize, tileSize);
 
 				} else {
-					Tile newTile = new Tile(new Color(147, 88, 28));
+					Tile newTile = new Tile(myBrown);
 					board[i][j] = newTile;
 					table.add(newTile);
 					newTile.setBounds(i * tileSize, j * tileSize, tileSize, tileSize);
@@ -105,6 +132,8 @@ public class ChessBoard extends JFrame {
 		this.addNewPiece('K', 'B', 4, 0);
 		this.addNewPiece('Q', 'B', 3, 0);
 
+		cpu = new CPU(board);
+
 		this.repaintAll();
 
 	}
@@ -132,6 +161,8 @@ public class ChessBoard extends JFrame {
 		DraggablePiece dragPiece = new DraggablePiece(p);
 
 		if (color == 'W') {
+			dragPiece.addMouseListener(new PieceClick(dragPiece));
+			dragPiece.addMouseMotionListener(new PieceDrag());
 			playerPieces.add(dragPiece);
 		} else {
 			cpuPieces.add(dragPiece);
@@ -139,8 +170,6 @@ public class ChessBoard extends JFrame {
 		board[x][y].setPiece(dragPiece.getMyPiece());
 		table.add(dragPiece);
 		dragPiece.setBounds(85 * x, 85 * y, 85, 85);
-		dragPiece.addMouseListener(new PieceClick(dragPiece));
-		dragPiece.addMouseMotionListener(new PieceDrag());
 
 		reorderComponents(dragPiece);
 		this.repaintAll();
@@ -168,6 +197,7 @@ public class ChessBoard extends JFrame {
 			p.setBounds(p.getMyPiece().getX() * 85, p.getMyPiece().getY() * 85, 85, 85);
 			return;
 		}
+		DraggablePiece jumpedPiece = null;
 
 		Tile newTile = board[iIndex][jIndex];
 		Tile oldTile = board[p.getMyPiece().getX()][p.getMyPiece().getY()];
@@ -178,7 +208,6 @@ public class ChessBoard extends JFrame {
 
 		if (isValidMove(p.getMyPiece(), newTile, iIndex, jIndex)) {
 			if (!newTile.isEmpty()) {
-				DraggablePiece jumpedPiece = null;
 
 				for (DraggablePiece dp : cpuPieces) {
 					if (dp.getBounds().getX() == newTile.getBounds().getX()
@@ -192,11 +221,7 @@ public class ChessBoard extends JFrame {
 						jumpedPiece = dp;
 					}
 				}
-				System.out.println(jumpedPiece);
 				if (jumpedPiece != null) {
-					if (jumpedPiece.getMyPiece() instanceof King) {
-						// Game is won by one side
-					}
 					table.remove(jumpedPiece);
 				}
 			}
@@ -206,14 +231,28 @@ public class ChessBoard extends JFrame {
 			p.setBounds(newTile.getBounds());
 			p.getMyPiece().setX(iIndex);
 			p.getMyPiece().setY(jIndex);
+			if (jumpedPiece != null) {
+				if (jumpedPiece.getMyPiece() instanceof King) {
+					if (jumpedPiece.getMyPiece().getColor() == 'B') {
+						JOptionPane.showMessageDialog(null, "The winner is you!", "Winner",
+								JOptionPane.INFORMATION_MESSAGE);
+
+					} else {
+						JOptionPane.showMessageDialog(null, "The winner is the computer!", "Winner",
+								JOptionPane.INFORMATION_MESSAGE);
+
+					}
+					System.exit(0);
+				}
+			}
 
 			if (p.getMyPiece() instanceof Pawn) {
 				((Pawn) p.getMyPiece()).moved();
 				if (p.getMyPiece().y == 0 && p.getMyPiece().getColor() == 'W') {
-					// Promote Piece
+					this.promotePiece(p);
 				}
 				if (p.getMyPiece().y == 7 && p.getMyPiece().getColor() == 'B') {
-					// Promote Piece
+					this.promotePiece(p);
 				}
 			}
 
@@ -264,8 +303,7 @@ public class ChessBoard extends JFrame {
 					}
 				}
 			}
-		}
-		else if(p instanceof Bishop) {
+		} else if (p instanceof Bishop) {
 			int xStepVal = 0;
 			int yStepVal = 0;
 			if (p.getX() > targX) {
@@ -278,19 +316,18 @@ public class ChessBoard extends JFrame {
 			} else if (p.getY() < targY) {
 				yStepVal = 1;
 			}
-			int tempX = p.getX()+xStepVal;
-			int tempY = p.getY()+yStepVal;
-			int netChange = Math.abs(p.getX() -targX);
-			for(int i = 0; i < netChange-1; i++){
+			int tempX = p.getX() + xStepVal;
+			int tempY = p.getY() + yStepVal;
+			int netChange = Math.abs(p.getX() - targX);
+			for (int i = 0; i < netChange - 1; i++) {
 				if (!this.board[tempX][tempY].isEmpty()) {
 					return false;
 				}
-				tempX+=xStepVal;
-				tempY+=yStepVal;
-				
+				tempX += xStepVal;
+				tempY += yStepVal;
+
 			}
-		}
-		else if(p instanceof Queen){
+		} else if (p instanceof Queen) {
 			int xStepVal = 0;
 			int yStepVal = 0;
 			if (p.getX() > targX) {
@@ -303,39 +340,47 @@ public class ChessBoard extends JFrame {
 			} else if (p.getY() < targY) {
 				yStepVal = 1;
 			}
-			
-			
-			if(xStepVal == 0){
+
+			if (xStepVal == 0) {
 				for (int i = p.getY() + yStepVal; i != targY; i = i + yStepVal) {
 					if (!this.board[targX][i].isEmpty()) {
 						return false;
 					}
 				}
-			}
-			else if(yStepVal == 0){
+			} else if (yStepVal == 0) {
 				for (int i = p.getX() + xStepVal; i != targX; i = i + xStepVal) {
 					if (!this.board[i][targY].isEmpty()) {
 						return false;
 					}
 				}
-			}
-			else{
-				int tempX = p.getX()+xStepVal;
-				int tempY = p.getY()+yStepVal;
-				int netChange = Math.abs(p.getX() -targX);
-				for(int i = 0; i < netChange-1; i++){
+			} else {
+				int tempX = p.getX() + xStepVal;
+				int tempY = p.getY() + yStepVal;
+				int netChange = Math.abs(p.getX() - targX);
+				for (int i = 0; i < netChange - 1; i++) {
 					if (!this.board[tempX][tempY].isEmpty()) {
 						return false;
 					}
-					tempX+=xStepVal;
-					tempY+=yStepVal;
+					tempX += xStepVal;
+					tempY += yStepVal;
 				}
 			}
 		}
-		
-		
-		
+
 		return true;
+	}
+
+	private void promotePiece(DraggablePiece dp) {
+		char newType = 'Q';
+		Piece p = dp.getMyPiece();
+		Piece newPiece = null;
+		if (newType == 'Q') {
+			newPiece = new Queen(p.getX(), p.getY(), p.getColor());
+		}
+		this.board[p.getX()][p.getY()].setPiece(p);
+		dp.setMyPiece(newPiece);
+		this.repaintAll();
+
 	}
 
 	private void repaintAll() {
