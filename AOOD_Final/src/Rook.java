@@ -5,6 +5,7 @@ public class Rook extends Piece {
 	public Rook(int x, int y, char color) {
 		super(x, y, color);
 		pieceIcon = new ImageIcon(this.getClass().getResource("Rook" + color + ".png"));
+		value = 5;
 	}
 
 	@Override

@@ -1,7 +1,7 @@
 import javax.swing.ImageIcon;
 
 public abstract class Piece {
-	protected int x, y;
+	protected int x, y, value;
 	protected char color;
 	protected ImageIcon pieceIcon;
 
@@ -51,6 +51,14 @@ public abstract class Piece {
 		}
 		return false;
 
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
 	}
 
 	public abstract boolean canReachTile(int x, int y, boolean tileFilled, char color);

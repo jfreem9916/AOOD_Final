@@ -5,6 +5,7 @@ public class Bishop extends Piece {
 	public Bishop(int x, int y, char color) {
 		super(x, y, color);
 		pieceIcon = new ImageIcon(this.getClass().getResource("Bishop" + color + ".png"));
+		value = 3;
 	}
 
 	@Override

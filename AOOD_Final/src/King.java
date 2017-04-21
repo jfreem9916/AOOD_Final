@@ -5,6 +5,7 @@ public class King extends Piece {
 	public King(int x, int y, char color) {
 		super(x, y, color);
 		pieceIcon = new ImageIcon(this.getClass().getResource("King" + color + ".png"));
+		value = Integer.MAX_VALUE;
 	}
 
 	@Override

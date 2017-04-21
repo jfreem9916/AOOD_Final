@@ -7,6 +7,7 @@ public class Pawn extends Piece {
 		super(x, y, color);
 		pieceIcon = new ImageIcon(this.getClass().getResource("Pawn" + color + ".png"));
 		atInitialPos = true;
+		value = 1;
 	}
 
 	@Override

@@ -5,6 +5,7 @@ public class Queen extends Piece {
 	public Queen(int x, int y, char color) {
 		super(x, y, color);
 		pieceIcon = new ImageIcon(this.getClass().getResource("Queen" + color + ".png"));
+		value = 9;
 	}
 
 	@Override

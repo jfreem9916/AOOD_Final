@@ -132,7 +132,7 @@ public class ChessBoard extends JFrame {
 		this.addNewPiece('K', 'B', 4, 0);
 		this.addNewPiece('Q', 'B', 3, 0);
 
-		cpu = new CPU(board);
+		cpu = new CPU(board, cpuPieces);
 
 		this.repaintAll();
 
@@ -163,11 +163,12 @@ public class ChessBoard extends JFrame {
 		if (color == 'W') {
 
 			playerPieces.add(dragPiece);
+			dragPiece.addMouseListener(new PieceClick(dragPiece));
+			dragPiece.addMouseMotionListener(new PieceDrag());
 		} else {
 			cpuPieces.add(dragPiece);
 		}
-		dragPiece.addMouseListener(new PieceClick(dragPiece));
-		dragPiece.addMouseMotionListener(new PieceDrag());
+
 		board[x][y].setPiece(dragPiece.getMyPiece());
 		table.add(dragPiece);
 		dragPiece.setBounds(85 * x, 85 * y, 85, 85);
@@ -208,7 +209,7 @@ public class ChessBoard extends JFrame {
 		}
 
 		if (isValidMove(p.getMyPiece(), newTile, iIndex, jIndex)) {
-			
+
 			if (!newTile.isEmpty()) {
 				for (DraggablePiece dp : cpuPieces) {
 					if (dp.getBounds().getX() == newTile.getBounds().getX()
@@ -216,7 +217,7 @@ public class ChessBoard extends JFrame {
 						jumpedPiece = dp;
 					}
 				}
-				if(jumpedPiece != null){
+				if (jumpedPiece != null) {
 					cpuPieces.remove(jumpedPiece);
 				}
 				for (DraggablePiece dp : playerPieces) {
@@ -225,11 +226,11 @@ public class ChessBoard extends JFrame {
 						jumpedPiece = dp;
 					}
 				}
-				
+
 				if (jumpedPiece != null) {
 					playerPieces.remove(jumpedPiece);
 					table.remove(jumpedPiece);
-					
+
 				}
 			}
 			newTile.setPiece(oldTile.getPiece());
@@ -262,6 +263,7 @@ public class ChessBoard extends JFrame {
 					this.promotePiece(p);
 				}
 			}
+			Tile[] move = cpu.decideMove();
 
 		} else {
 			p.setBounds(oldTile.getBounds());
