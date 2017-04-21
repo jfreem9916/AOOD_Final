@@ -161,12 +161,13 @@ public class ChessBoard extends JFrame {
 		DraggablePiece dragPiece = new DraggablePiece(p);
 
 		if (color == 'W') {
-			dragPiece.addMouseListener(new PieceClick(dragPiece));
-			dragPiece.addMouseMotionListener(new PieceDrag());
+
 			playerPieces.add(dragPiece);
 		} else {
 			cpuPieces.add(dragPiece);
 		}
+		dragPiece.addMouseListener(new PieceClick(dragPiece));
+		dragPiece.addMouseMotionListener(new PieceDrag());
 		board[x][y].setPiece(dragPiece.getMyPiece());
 		table.add(dragPiece);
 		dragPiece.setBounds(85 * x, 85 * y, 85, 85);
@@ -207,13 +208,16 @@ public class ChessBoard extends JFrame {
 		}
 
 		if (isValidMove(p.getMyPiece(), newTile, iIndex, jIndex)) {
+			
 			if (!newTile.isEmpty()) {
-
 				for (DraggablePiece dp : cpuPieces) {
 					if (dp.getBounds().getX() == newTile.getBounds().getX()
 							&& dp.getBounds().getY() == newTile.getBounds().getY()) {
 						jumpedPiece = dp;
 					}
+				}
+				if(jumpedPiece != null){
+					cpuPieces.remove(jumpedPiece);
 				}
 				for (DraggablePiece dp : playerPieces) {
 					if (dp.getBounds().getX() == newTile.getBounds().getX()
@@ -221,8 +225,11 @@ public class ChessBoard extends JFrame {
 						jumpedPiece = dp;
 					}
 				}
+				
 				if (jumpedPiece != null) {
+					playerPieces.remove(jumpedPiece);
 					table.remove(jumpedPiece);
+					
 				}
 			}
 			newTile.setPiece(oldTile.getPiece());
