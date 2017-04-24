@@ -217,18 +217,9 @@ public class ChessBoard extends JFrame {
 						jumpedPiece = dp;
 					}
 				}
-				if (jumpedPiece != null) {
-					cpuPieces.remove(jumpedPiece);
-				}
-				for (DraggablePiece dp : playerPieces) {
-					if (dp.getBounds().getX() == newTile.getBounds().getX()
-							&& dp.getBounds().getY() == newTile.getBounds().getY()) {
-						jumpedPiece = dp;
-					}
-				}
 
 				if (jumpedPiece != null) {
-					playerPieces.remove(jumpedPiece);
+					cpuPieces.remove(jumpedPiece);
 					table.remove(jumpedPiece);
 
 				}
@@ -241,15 +232,8 @@ public class ChessBoard extends JFrame {
 			p.getMyPiece().setY(jIndex);
 			if (jumpedPiece != null) {
 				if (jumpedPiece.getMyPiece() instanceof King) {
-					if (jumpedPiece.getMyPiece().getColor() == 'B') {
-						JOptionPane.showMessageDialog(null, "The winner is you!", "Winner",
-								JOptionPane.INFORMATION_MESSAGE);
-
-					} else {
-						JOptionPane.showMessageDialog(null, "The winner is the computer!", "Winner",
-								JOptionPane.INFORMATION_MESSAGE);
-
-					}
+					JOptionPane.showMessageDialog(null, "The winner is you!", "Winner",
+							JOptionPane.INFORMATION_MESSAGE);
 					System.exit(0);
 				}
 			}
@@ -259,11 +243,9 @@ public class ChessBoard extends JFrame {
 				if (p.getMyPiece().y == 0 && p.getMyPiece().getColor() == 'W') {
 					this.promotePiece(p);
 				}
-				if (p.getMyPiece().y == 7 && p.getMyPiece().getColor() == 'B') {
-					this.promotePiece(p);
-				}
 			}
-			Tile[] move = cpu.decideMove();
+
+			this.cpuTurn(cpu.decideMove());
 
 		} else {
 			p.setBounds(oldTile.getBounds());
@@ -377,6 +359,57 @@ public class ChessBoard extends JFrame {
 		}
 
 		return true;
+	}
+
+	private void cpuTurn(Tile[] move) {
+		DraggablePiece jumpedPiece = null;
+		Tile newTile = move[1];
+		Tile oldTile = move[0];
+
+		if (newTile.getPiece() != null) {
+			for (DraggablePiece dp : playerPieces) {
+				if (dp.getBounds().getX() == newTile.getBounds().getX()
+						&& dp.getBounds().getY() == newTile.getBounds().getY()) {
+					jumpedPiece = dp;
+				}
+			}
+
+			if (jumpedPiece != null) {
+				playerPieces.remove(jumpedPiece);
+				table.remove(jumpedPiece);
+
+			}
+		}
+		
+		DraggablePiece movedPiece = null;
+		for (DraggablePiece dp : cpuPieces) {
+			System.out.println(dp.getBounds().getX() + " " + dp.getBounds().getY());
+			System.out.println(oldTile.getBounds().getX() + " " + oldTile.getBounds().getY());
+			if (dp.getBounds().getX() == oldTile.getBounds().getX()
+					&& dp.getBounds().getY() == oldTile.getBounds().getY()) {
+				movedPiece = dp;
+			}
+		}
+		System.out.println(movedPiece);
+		movedPiece.setBounds(newTile.getBounds());
+		oldTile.setPiece(null);
+		newTile.setPiece(movedPiece.getMyPiece());
+		
+		
+		if (movedPiece.getMyPiece() instanceof Pawn) {
+			((Pawn) movedPiece.getMyPiece()).moved();
+			if (movedPiece.getMyPiece().y == 7 && movedPiece.getMyPiece().getColor() == 'B') {
+				this.promotePiece(movedPiece);
+			}
+		}
+
+		if (jumpedPiece != null) {
+			if (jumpedPiece.getMyPiece() instanceof King) {
+				JOptionPane.showMessageDialog(null, "The winner is the computer!", "Winner",
+						JOptionPane.INFORMATION_MESSAGE);
+				System.exit(0);
+			}
+		}
 	}
 
 	private void promotePiece(DraggablePiece dp) {
