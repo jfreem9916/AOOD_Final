@@ -394,6 +394,9 @@ public class ChessBoard extends JFrame {
 		movedPiece.setBounds(newTile.getBounds());
 		oldTile.setPiece(null);
 		newTile.setPiece(movedPiece.getMyPiece());
+		movedPiece.getMyPiece().setX(x);
+		movedPiece.getMyPiece().setY(y);
+
 		
 		
 		if (movedPiece.getMyPiece() instanceof Pawn) {
