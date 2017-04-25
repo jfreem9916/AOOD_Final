@@ -363,9 +363,13 @@ public class ChessBoard extends JFrame {
 
 	private void cpuTurn(Tile[] move) {
 		DraggablePiece jumpedPiece = null;
+		if(move == null){
+			JOptionPane.showMessageDialog(null, "The cpu is out of possible moves.", "Error",
+					JOptionPane.INFORMATION_MESSAGE);
+			System.exit(0);
+		}
 		Tile newTile = move[1];
 		Tile oldTile = move[0];
-
 		if (newTile.getPiece() != null) {
 			for (DraggablePiece dp : playerPieces) {
 				if (dp.getBounds().getX() == newTile.getBounds().getX()
@@ -383,19 +387,17 @@ public class ChessBoard extends JFrame {
 		
 		DraggablePiece movedPiece = null;
 		for (DraggablePiece dp : cpuPieces) {
-			System.out.println(dp.getBounds().getX() + " " + dp.getBounds().getY());
-			System.out.println(oldTile.getBounds().getX() + " " + oldTile.getBounds().getY());
+
 			if (dp.getBounds().getX() == oldTile.getBounds().getX()
 					&& dp.getBounds().getY() == oldTile.getBounds().getY()) {
 				movedPiece = dp;
 			}
 		}
-		System.out.println(movedPiece);
 		movedPiece.setBounds(newTile.getBounds());
 		oldTile.setPiece(null);
 		newTile.setPiece(movedPiece.getMyPiece());
-		movedPiece.getMyPiece().setX(x);
-		movedPiece.getMyPiece().setY(y);
+		movedPiece.getMyPiece().setX((int)(newTile.getBounds().getX() / 85));
+		movedPiece.getMyPiece().setY((int)(newTile.getBounds().getY() / 85));
 
 		
 		

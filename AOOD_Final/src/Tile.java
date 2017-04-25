@@ -39,4 +39,8 @@ public class Tile extends JPanel {
 		}
 		return false;
 	}
+	
+	public String toString(){
+		return this.getBounds().getX()/85 + " " + this.getBounds().getY()/85;
+	}
 }
