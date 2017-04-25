@@ -7,7 +7,7 @@ public class CPU {
 	private Tile[][] board;
 	private ArrayList<Piece> myPieces;
 	private ArrayList<DraggablePiece> piecesOnBoard;
-
+	
 	public CPU(Tile[][] b, ArrayList<DraggablePiece> p) {
 		board = b;
 		piecesOnBoard = p;
@@ -348,6 +348,7 @@ public class CPU {
 					posCoords.add(new intPair(pX, tempY));
 				}
 
+				Collections.shuffle(posCoords);
 
 				for (intPair i : posCoords) {
 					tempX = i.getInt1();
@@ -369,6 +370,7 @@ public class CPU {
 				posCoords[5] = new intPair(pX - 2, pY + 1);
 				posCoords[6] = new intPair(pX - 2, pY - 1);
 				posCoords[7] = new intPair(pX - 1, pY - 2);
+
 				for (intPair i : posCoords) {
 					int tempX = i.getInt1();
 					int tempY = i.getInt2();
@@ -417,7 +419,7 @@ public class CPU {
 					posCoords.add(new intPair(pX - tempChange, pY + tempChange));
 				}
 
-
+				Collections.shuffle(posCoords);
 
 				for (intPair i : posCoords) {
 					int tempX = i.getInt1();
@@ -505,6 +507,7 @@ public class CPU {
 				}
 
 
+				Collections.shuffle(posCoords);
 
 				for (intPair i : posCoords) {
 					tempX = i.getInt1();
@@ -525,6 +528,7 @@ public class CPU {
 				posCoords[5] = new intPair(pX - 1, pY + 1);
 				posCoords[6] = new intPair(pX - 1, pY);
 				posCoords[7] = new intPair(pX - 1, pY - 1);
+
 				for (intPair i : posCoords) {
 					int tempX = i.getInt1();
 					int tempY = i.getInt2();
@@ -889,23 +893,6 @@ public class CPU {
 		return null;
 	}
 
-	private class intPair {
-		private int i1, i2;
-
-		public intPair(int a, int b) {
-			i1 = a;
-			i2 = b;
-		}
-
-		public int getInt1() {
-			return i1;
-		}
-
-		public int getInt2() {
-			return i2;
-		}
-	}
-
 	public void updateArrayList() {
 		myPieces = new ArrayList<Piece>();
 		for (DraggablePiece dp : piecesOnBoard) {
@@ -1026,15 +1013,56 @@ public class CPU {
 		knightCoords[5] = new intPair(pX - 2, pY + 1);
 		knightCoords[6] = new intPair(pX - 2, pY - 1);
 		knightCoords[7] = new intPair(pX - 1, pY - 2);
+		
+		intPair[] pawnCoords = new intPair[2];
+		pawnCoords[0] = new intPair(pX + 1, pY + 1);
+		pawnCoords[1] = new intPair(pX - 1, pY + 1);
+
 		for (intPair i : knightCoords) {
 			if (this.coordExists(i.getInt1(), i.getInt2()) && this.coordHasPiece(i.getInt1(), i.getInt2())
 					&& this.pieceIsEnemy(i.getInt1(), i.getInt2())
 					&& board[i.getInt1()][i.getInt2()].getPiece() instanceof Knight) {
-				posCoords.add(new intPair(pX - tempChange - 1, pY + tempChange + 1));
+				posCoords.add(new intPair(i.getInt1(), i.getInt2()));
 			}
 		}
-		if(posCoords.size() > 0){
-			return true;
+		for (intPair i : pawnCoords) {
+			if (this.coordExists(i.getInt1(), i.getInt2()) && this.coordHasPiece(i.getInt1(), i.getInt2())
+					&& this.pieceIsEnemy(i.getInt1(), i.getInt2())
+					&& board[i.getInt1()][i.getInt2()].getPiece() instanceof Pawn) {
+				posCoords.add(new intPair(i.getInt1(), i.getInt2()));
+			}
+		}
+		for(intPair i: posCoords){
+			int jumpingX = i.getInt1();
+			int jumpingY = i.getInt2();
+			Piece jumpingPiece = board[jumpingX][jumpingY].getPiece();
+			if(jumpingX - pX == 0 || jumpingY - pY == 0){
+				if(jumpingPiece instanceof Rook || jumpingPiece instanceof Queen){
+					return true;
+				}
+			}
+			if(Math.abs(jumpingX -pX) == Math.abs(jumpingY - pY)){
+				if(Math.abs(jumpingX - pX) == 1 && jumpingY - pY == 1){
+					if(jumpingPiece instanceof Bishop || jumpingPiece instanceof Queen || jumpingPiece instanceof Pawn){
+						return true;
+					}
+				}
+				if(jumpingPiece instanceof Bishop || jumpingPiece instanceof Queen){
+					return true;
+				}
+			}
+			if((Math.abs(jumpingX - pX) == 1 && Math.abs(jumpingY - pY) == 2) ||(Math.abs(jumpingX - pX) == 2 && Math.abs(jumpingY - pY) == 1)){
+				if(jumpingPiece instanceof Knight){
+					return true;
+				}
+			}
+			if((Math.abs(jumpingX - pX) <= 1 && Math.abs(jumpingY - pY) <= 1)){
+				if(jumpingPiece instanceof King){
+					return true;
+				}
+			}
+			
+			
 		}
 		return false;
 	}
@@ -1064,9 +1092,12 @@ public class CPU {
 		}
 		return false;
 	}
+	
+
 }
 
 
 //Needs a method that finds the best jump for that turn
 //A method for protecting a king in check
-//A method that
+//Check for move ability to move rooks, bishops, and queens less than maximum spaces available
+//Replace arrays with arraylists

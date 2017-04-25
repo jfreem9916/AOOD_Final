@@ -430,6 +430,8 @@ public class ChessBoard extends JFrame {
 
 	}
 
+	
+	
 	private void repaintAll() {
 		for (DraggablePiece p : playerPieces) {
 			p.repaint();
