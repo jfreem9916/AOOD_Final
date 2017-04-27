@@ -1,4 +1,5 @@
 /Bishop.class
+/CPU.class
 /ChessBoard$PieceClick.class
 /ChessBoard$PieceDrag.class
 /ChessBoard.class
@@ -11,8 +12,8 @@
 /Player.class
 /Queen.class
 /Rook.class
+/RookB.png
+/RookW.png
+/Thumbs.db
 /Tile.class
-/PromotionSelect.class
-/CPU.class
-/CPU$intPair.class
 /intPair.class

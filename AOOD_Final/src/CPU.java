@@ -306,7 +306,7 @@ public class CPU {
 				output[0] = board[pX][pY];
 				Pawn pawn = (Pawn) p;
 				if (pawn.isAtInitalPos() && coordExists(pX, pY + 2) && !coordHasPiece(pX, pY + 2)
-						&& !canBeJumped(pX, pY + 2)) {
+						&& !canBeJumped(pX, pY + 2) && !coordHasPiece(pX, pY+1)) {
 					output[1] = board[pX][pY + 2];
 					return output;
 				}
