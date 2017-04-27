@@ -2,6 +2,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class DraggablePiece extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8935496406333408130L;
 	private Piece myPiece;
 	private JLabel display;
 	public DraggablePiece(Piece p){

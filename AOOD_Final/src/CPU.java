@@ -68,7 +68,7 @@ public class CPU {
 				}
 
 				tempX = pX;
-				for (int i = pX - 1; i > 0 && board[i][pY].getPiece() == null; i--) {
+				for (int i = pX - 1; i >= 0 && board[i][pY].getPiece() == null; i--) {
 					tempX = i;
 				}
 				if (this.coordExists(tempX - 1, pY) && this.coordHasPiece(tempX - 1, pY)
@@ -86,7 +86,7 @@ public class CPU {
 				}
 
 				tempY = pY;
-				for (int i = pY - 1; i > 0 && board[pX][i].getPiece() == null; i--) {
+				for (int i = pY - 1; i >= 0 && board[pX][i].getPiece() == null; i--) {
 					tempY = i;
 				}
 				if (this.coordExists(pX, tempY - 1) && this.coordHasPiece(pX, tempY - 1)
@@ -140,7 +140,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX - i > 0 && pY - i > 0 && board[pX - i][pY - i].getPiece() == null; i++) {
+				for (int i = 1; pX - i >= 0 && pY - i >= 0 && board[pX - i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (this.coordExists(pX - tempChange - 1, pY - tempChange - 1)
@@ -150,7 +150,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX + i < 8 && pY - i > 0 && board[pX + i][pY - i].getPiece() == null; i++) {
+				for (int i = 1; pX + i < 8 && pY - i >= 0 && board[pX + i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (this.coordExists(pX + tempChange + 1, pY - tempChange - 1)
@@ -160,7 +160,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX - i > 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
+				for (int i = 1; pX - i >= 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (this.coordExists(pX - tempChange - 1, pY + tempChange + 1)
@@ -194,7 +194,7 @@ public class CPU {
 				}
 
 				tempX = pX;
-				for (int i = pX - 1; i > 0 && board[i][pY].getPiece() == null; i--) {
+				for (int i = pX - 1; i >= 0 && board[i][pY].getPiece() == null; i--) {
 					tempX = i;
 				}
 				if (this.coordExists(tempX - 1, pY) && this.coordHasPiece(tempX - 1, pY)
@@ -212,7 +212,7 @@ public class CPU {
 				}
 
 				tempY = pY;
-				for (int i = pY - 1; i > 0 && board[pX][i].getPiece() == null; i--) {
+				for (int i = pY - 1; i >= 0 && board[pX][i].getPiece() == null; i--) {
 					tempY = i;
 				}
 				if (this.coordExists(pX, tempY - 1) && this.coordHasPiece(pX, tempY - 1)
@@ -232,7 +232,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX - i > 0 && pY - i > 0 && board[pX - i][pY - i].getPiece() == null; i++) {
+				for (int i = 1; pX - i >= 0 && pY - i >= 0 && board[pX - i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (this.coordExists(pX - tempChange - 1, pY - tempChange - 1)
@@ -242,7 +242,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX + i < 8 && pY - i > 0 && board[pX + i][pY - i].getPiece() == null; i++) {
+				for (int i = 1; pX + i < 8 && pY - i >= 0 && board[pX + i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (this.coordExists(pX + tempChange + 1, pY - tempChange - 1)
@@ -252,7 +252,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX - i > 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
+				for (int i = 1; pX - i >= 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (this.coordExists(pX - tempChange - 1, pY + tempChange + 1)
@@ -326,7 +326,7 @@ public class CPU {
 				}
 
 				tempX = pX;
-				for (int i = pX - 1; i > 0 && board[i][pY].getPiece() == null; i--) {
+				for (int i = pX - 1; i >= 0 && board[i][pY].getPiece() == null; i--) {
 					tempX = i;
 				}
 				if (tempX != pX) {
@@ -342,7 +342,7 @@ public class CPU {
 				}
 
 				tempY = pY;
-				for (int i = pY - 1; i > 0 && board[pX][i].getPiece() == null; i--) {
+				for (int i = pY - 1; i >= 0 && board[pX][i].getPiece() == null; i--) {
 					tempY = i;
 				}
 				if (tempY != pY) {
@@ -395,7 +395,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX - i > 0 && pY - i > 0 && board[pX - i][pY - i].getPiece() == null; i++) {
+				for (int i = 1; pX - i >= 0 && pY - i >= 0 && board[pX - i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (tempChange != 0) {
@@ -403,7 +403,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX + i < 8 && pY - i > 0 && board[pX + i][pY - i].getPiece() == null; i++) {
+				for (int i = 1; pX + i < 8 && pY - i >= 0 && board[pX + i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (tempChange != 0) {
@@ -411,7 +411,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX - i > 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
+				for (int i = 1; pX - i >= 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (tempChange != 0) {
@@ -443,7 +443,7 @@ public class CPU {
 				}
 
 				tempX = pX;
-				for (int i = pX - 1; i > 0 && board[i][pY].getPiece() == null; i--) {
+				for (int i = pX - 1; i >= 0 && board[i][pY].getPiece() == null; i--) {
 					tempX = i;
 				}
 				if (tempX != pX) {
@@ -459,7 +459,7 @@ public class CPU {
 				}
 
 				tempY = pY;
-				for (int i = pY - 1; i > 0 && board[pX][i].getPiece() == null; i--) {
+				for (int i = pY - 1; i >= 0 && board[pX][i].getPiece() == null; i--) {
 					tempY = i;
 				}
 				if (tempY != pY) {
@@ -476,7 +476,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX - i > 0 && pY - i > 0 && board[pX - i][pY - i].getPiece() == null; i++) {
+				for (int i = 1; pX - i >= 0 && pY - i >= 0 && board[pX - i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (tempChange != 0) {
@@ -484,7 +484,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX + i < 8 && pY - i > 0 && board[pX + i][pY - i].getPiece() == null; i++) {
+				for (int i = 1; pX + i < 8 && pY - i >= 0 && board[pX + i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (tempChange != 0) {
@@ -492,7 +492,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX - i > 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
+				for (int i = 1; pX - i >= 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (tempChange != 0) {
@@ -579,7 +579,7 @@ public class CPU {
 				}
 
 				tempX = pX;
-				for (int i = pX - 1; i > 0 && board[i][pY].getPiece() == null; i--) {
+				for (int i = pX - 1; i >= 0 && board[i][pY].getPiece() == null; i--) {
 					tempX = i;
 				}
 				if (tempX != pX) {
@@ -603,7 +603,7 @@ public class CPU {
 				}
 
 				tempY = pY;
-				for (int i = pY - 1; i > 0 && board[pX][i].getPiece() == null; i--) {
+				for (int i = pY - 1; i >= 0 && board[pX][i].getPiece() == null; i--) {
 					tempY = i;
 				}
 				if (tempY != pY) {
@@ -677,7 +677,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX - i > 0 && pY - i > 0 && board[pX - i][pY - i].getPiece() == null; i++) {
+				for (int i = 1; pX - i >= 0 && pY - i >= 0 && board[pX - i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (tempChange != 0) {
@@ -690,7 +690,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX + i < 8 && pY - i > 0 && board[pX + i][pY - i].getPiece() == null; i++) {
+				for (int i = 1; pX + i < 8 && pY - i >= 0 && board[pX + i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (tempChange != 0) {
@@ -703,7 +703,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX - i > 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
+				for (int i = 1; pX - i >= 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (tempChange != 0) {
@@ -750,7 +750,7 @@ public class CPU {
 				}
 
 				tempX = pX;
-				for (int i = pX - 1; i > 0 && board[i][pY].getPiece() == null; i--) {
+				for (int i = pX - 1; i >= 0 && board[i][pY].getPiece() == null; i--) {
 					tempX = i;
 				}
 				if (tempX != pX) {
@@ -774,7 +774,7 @@ public class CPU {
 				}
 
 				tempY = pY;
-				for (int i = pY - 1; i > 0 && board[pX][i].getPiece() == null; i--) {
+				for (int i = pY - 1; i >= 0 && board[pX][i].getPiece() == null; i--) {
 					tempY = i;
 				}
 				if (tempY != pY) {
@@ -800,7 +800,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX - i > 0 && pY - i > 0 && board[pX - i][pY - i].getPiece() == null; i++) {
+				for (int i = 1; pX - i >= 0 && pY - i >= 0 && board[pX - i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (tempChange != 0) {
@@ -813,7 +813,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX + i < 8 && pY - i > 0 && board[pX + i][pY - i].getPiece() == null; i++) {
+				for (int i = 1; pX + i < 8 && pY - i >= 0 && board[pX + i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (tempChange != 0) {
@@ -826,7 +826,7 @@ public class CPU {
 				}
 
 				tempChange = 0;
-				for (int i = 1; pX - i > 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
+				for (int i = 1; pX - i >= 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
 					tempChange = i;
 				}
 				if (tempChange != 0) {
@@ -924,7 +924,7 @@ public class CPU {
 
 	public boolean canBeJumped(int pX, int pY) {
 		ArrayList<intPair> posCoords = new ArrayList<intPair>();
-
+		System.out.println("pX: " + pX + ", pY: " + pY);
 		// Rook half
 		int tempX = pX;
 		for (int i = pX + 1; i < 8 && board[i][pY].getPiece() == null; i++) {
@@ -935,7 +935,7 @@ public class CPU {
 		}
 
 		tempX = pX;
-		for (int i = pX - 1; i > 0 && board[i][pY].getPiece() == null; i--) {
+		for (int i = pX - 1; i >= 0 && board[i][pY].getPiece() == null; i--) {
 			tempX = i;
 		}
 		if (this.coordExists(tempX - 1, pY) && this.coordHasPiece(tempX - 1, pY) && this.pieceIsEnemy(tempX - 1, pY)) {
@@ -944,6 +944,7 @@ public class CPU {
 
 		int tempY = pY;
 		for (int i = pY + 1; i < 8 && board[pX][i].getPiece() == null; i++) {
+			System.out.println("i: " + i);
 			tempY = i;
 		}
 		if (this.coordExists(pX, tempY + 1) && this.coordHasPiece(pX, tempY + 1) && this.pieceIsEnemy(pX, tempY + 1)) {
@@ -951,7 +952,7 @@ public class CPU {
 		}
 
 		tempY = pY;
-		for (int i = pY - 1; i > 0 && board[pX][i].getPiece() == null; i--) {
+		for (int i = pY - 1; i >= 0 && board[pX][i].getPiece() == null; i--) {
 			tempY = i;
 		}
 		if (this.coordExists(pX, tempY - 1) && this.coordHasPiece(pX, tempY - 1) && this.pieceIsEnemy(pX, tempY - 1)) {
@@ -970,7 +971,7 @@ public class CPU {
 		}
 
 		tempChange = 0;
-		for (int i = 1; pX - i > 0 && pY - i > 0 && board[pX - i][pY - i].getPiece() == null; i++) {
+		for (int i = 1; pX - i >= 0 && pY - i >= 0 && board[pX - i][pY - i].getPiece() == null; i++) {
 			tempChange = i;
 		}
 		if (this.coordExists(pX - tempChange - 1, pY - tempChange - 1)
@@ -980,7 +981,7 @@ public class CPU {
 		}
 
 		tempChange = 0;
-		for (int i = 1; pX + i < 8 && pY - i > 0 && board[pX + i][pY - i].getPiece() == null; i++) {
+		for (int i = 1; pX + i < 8 && pY - i >= 0 && board[pX + i][pY - i].getPiece() == null; i++) {
 			tempChange = i;
 		}
 		if (this.coordExists(pX + tempChange + 1, pY - tempChange - 1)
@@ -990,7 +991,7 @@ public class CPU {
 		}
 
 		tempChange = 0;
-		for (int i = 1; pX - i > 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
+		for (int i = 1; pX - i >= 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
 			tempChange = i;
 		}
 		if (this.coordExists(pX - tempChange - 1, pY + tempChange + 1)
@@ -1137,6 +1138,16 @@ public class CPU {
 		for (intPair i : posCoords) {
 			int tempX = i.getInt1();
 			int tempY = i.getInt2();
+			if (coordExists(tempX, tempY) && coordHasPiece(tempX, tempY) && pieceIsEnemy(tempX, tempY) && !canBeJumped(tempX, tempY)) {
+				output = new Tile[2];
+				output[0] = board[pX][pY];
+				output[1] = board[tempX][tempY];
+				return output;
+			}
+		}
+		for (intPair i : posCoords) {
+			int tempX = i.getInt1();
+			int tempY = i.getInt2();
 			if (coordExists(tempX, tempY) && !coordHasPiece(tempX, tempY) && !canBeJumped(tempX, tempY)) {
 				output = new Tile[2];
 				output[0] = board[pX][pY];
@@ -1153,3 +1164,6 @@ public class CPU {
 // A method for protecting a king in check
 // Check for move ability to move rooks, bishops, and queens less than maximum
 // spaces available
+
+
+
