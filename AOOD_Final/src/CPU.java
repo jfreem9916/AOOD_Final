@@ -7,7 +7,7 @@ public class CPU {
 	private Tile[][] board;
 	private ArrayList<Piece> myPieces;
 	private ArrayList<DraggablePiece> piecesOnBoard;
-	
+
 	public CPU(Tile[][] b, ArrayList<DraggablePiece> p) {
 		board = b;
 		piecesOnBoard = p;
@@ -20,19 +20,21 @@ public class CPU {
 	public Tile[] decideMove() {
 		this.updateArrayList();
 		Tile[] output = null;
-		if(this.kingCanBeJumped()){
+		if (this.kingCanBeJumped()) {
 			JOptionPane.showMessageDialog(null, "The cpu's king is in check!", "Check",
 					JOptionPane.INFORMATION_MESSAGE);
+			output = moveKingToSafety();
 		}
-		output = checkForJump();
 		if (output == null) {
-			Collections.shuffle(myPieces);
-			output = checkForMove();
+			output = checkForJump();
 			if (output == null) {
-				output = lastResort();
+				Collections.shuffle(myPieces);
+				output = checkForMove();
+				if (output == null) {
+					output = lastResort();
+				}
 			}
 		}
-
 		return output;
 	}
 
@@ -303,11 +305,12 @@ public class CPU {
 			if (p instanceof Pawn) {
 				output[0] = board[pX][pY];
 				Pawn pawn = (Pawn) p;
-				if (pawn.isAtInitalPos() && coordExists(pX, pY + 2) && !coordHasPiece(pX, pY + 2) && !canBeJumped(pX, pY+2)) {
+				if (pawn.isAtInitalPos() && coordExists(pX, pY + 2) && !coordHasPiece(pX, pY + 2)
+						&& !canBeJumped(pX, pY + 2)) {
 					output[1] = board[pX][pY + 2];
 					return output;
 				}
-				if (coordExists(pX, pY + 1) && !coordHasPiece(pX, pY + 1) && !canBeJumped(pX, pY+1)) {
+				if (coordExists(pX, pY + 1) && !coordHasPiece(pX, pY + 1) && !canBeJumped(pX, pY + 1)) {
 					output[1] = board[pX][pY + 1];
 					return output;
 				}
@@ -330,7 +333,6 @@ public class CPU {
 					posCoords.add(new intPair(tempX, pY));
 				}
 
-
 				int tempY = pY;
 				for (int i = pY + 1; i < 8 && board[pX][i].getPiece() == null; i++) {
 					tempY = i;
@@ -338,7 +340,6 @@ public class CPU {
 				if (tempY != pY) {
 					posCoords.add(new intPair(pX, tempY));
 				}
-
 
 				tempY = pY;
 				for (int i = pY - 1; i > 0 && board[pX][i].getPiece() == null; i--) {
@@ -361,15 +362,16 @@ public class CPU {
 
 			} else if (p instanceof Knight) {
 				output[0] = board[pX][pY];
-				intPair[] posCoords = new intPair[8];
-				posCoords[0] = new intPair(pX + 1, pY - 2);
-				posCoords[1] = new intPair(pX + 2, pY - 1);
-				posCoords[2] = new intPair(pX + 2, pY + 1);
-				posCoords[3] = new intPair(pX + 1, pY + 2);
-				posCoords[4] = new intPair(pX - 1, pY + 2);
-				posCoords[5] = new intPair(pX - 2, pY + 1);
-				posCoords[6] = new intPair(pX - 2, pY - 1);
-				posCoords[7] = new intPair(pX - 1, pY - 2);
+				ArrayList<intPair> posCoords = new ArrayList<intPair>();
+				posCoords.add(new intPair(pX + 1, pY - 2));
+				posCoords.add(new intPair(pX + 2, pY - 1));
+				posCoords.add(new intPair(pX + 2, pY + 1));
+				posCoords.add(new intPair(pX + 1, pY + 2));
+				posCoords.add(new intPair(pX - 1, pY + 2));
+				posCoords.add(new intPair(pX - 2, pY + 1));
+				posCoords.add(new intPair(pX - 2, pY - 1));
+				posCoords.add(new intPair(pX - 1, pY - 2));
+				Collections.shuffle(posCoords);
 
 				for (intPair i : posCoords) {
 					int tempX = i.getInt1();
@@ -392,7 +394,6 @@ public class CPU {
 					posCoords.add(new intPair(pX + tempChange, pY + tempChange));
 				}
 
-
 				tempChange = 0;
 				for (int i = 1; pX - i > 0 && pY - i > 0 && board[pX - i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
@@ -401,7 +402,6 @@ public class CPU {
 					posCoords.add(new intPair(pX - tempChange, pY - tempChange));
 				}
 
-
 				tempChange = 0;
 				for (int i = 1; pX + i < 8 && pY - i > 0 && board[pX + i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
@@ -409,7 +409,6 @@ public class CPU {
 				if (tempChange != 0) {
 					posCoords.add(new intPair(pX + tempChange, pY - tempChange));
 				}
-
 
 				tempChange = 0;
 				for (int i = 1; pX - i > 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
@@ -443,7 +442,6 @@ public class CPU {
 					posCoords.add(new intPair(tempX, pY));
 				}
 
-
 				tempX = pX;
 				for (int i = pX - 1; i > 0 && board[i][pY].getPiece() == null; i--) {
 					tempX = i;
@@ -451,7 +449,6 @@ public class CPU {
 				if (tempX != pX) {
 					posCoords.add(new intPair(tempX, pY));
 				}
-
 
 				int tempY = pY;
 				for (int i = pY + 1; i < 8 && board[pX][i].getPiece() == null; i++) {
@@ -461,7 +458,6 @@ public class CPU {
 					posCoords.add(new intPair(pX, tempY));
 				}
 
-
 				tempY = pY;
 				for (int i = pY - 1; i > 0 && board[pX][i].getPiece() == null; i--) {
 					tempY = i;
@@ -469,7 +465,6 @@ public class CPU {
 				if (tempY != pY) {
 					posCoords.add(new intPair(pX, tempY));
 				}
-
 
 				// Bishop half
 				int tempChange = 0;
@@ -488,7 +483,6 @@ public class CPU {
 					posCoords.add(new intPair(pX - tempChange, pY - tempChange));
 				}
 
-
 				tempChange = 0;
 				for (int i = 1; pX + i < 8 && pY - i > 0 && board[pX + i][pY - i].getPiece() == null; i++) {
 					tempChange = i;
@@ -497,7 +491,6 @@ public class CPU {
 					posCoords.add(new intPair(pX + tempChange, pY - tempChange));
 				}
 
-
 				tempChange = 0;
 				for (int i = 1; pX - i > 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
 					tempChange = i;
@@ -505,7 +498,6 @@ public class CPU {
 				if (tempChange != 0) {
 					posCoords.add(new intPair(pX - tempChange, pY + tempChange));
 				}
-
 
 				Collections.shuffle(posCoords);
 
@@ -519,16 +511,17 @@ public class CPU {
 				}
 			} else {
 				output[0] = board[pX][pY];
-				intPair[] posCoords = new intPair[8];
-				posCoords[0] = new intPair(pX, pY - 1);
-				posCoords[1] = new intPair(pX + 1, pY - 1);
-				posCoords[2] = new intPair(pX + 1, pY);
-				posCoords[3] = new intPair(pX + 1, pY + 1);
-				posCoords[4] = new intPair(pX, pY + 1);
-				posCoords[5] = new intPair(pX - 1, pY + 1);
-				posCoords[6] = new intPair(pX - 1, pY);
-				posCoords[7] = new intPair(pX - 1, pY - 1);
+				ArrayList<intPair> posCoords = new ArrayList<intPair>();
+				posCoords.add(new intPair(pX, pY - 1));
+				posCoords.add(new intPair(pX + 1, pY - 1));
+				posCoords.add(new intPair(pX + 1, pY));
+				posCoords.add(new intPair(pX + 1, pY + 1));
+				posCoords.add(new intPair(pX, pY + 1));
+				posCoords.add(new intPair(pX - 1, pY + 1));
+				posCoords.add(new intPair(pX - 1, pY));
+				posCoords.add(new intPair(pX - 1, pY - 1));
 
+				Collections.shuffle(posCoords);
 				for (intPair i : posCoords) {
 					int tempX = i.getInt1();
 					int tempY = i.getInt2();
@@ -1013,7 +1006,7 @@ public class CPU {
 		knightCoords[5] = new intPair(pX - 2, pY + 1);
 		knightCoords[6] = new intPair(pX - 2, pY - 1);
 		knightCoords[7] = new intPair(pX - 1, pY - 2);
-		
+
 		intPair[] pawnCoords = new intPair[2];
 		pawnCoords[0] = new intPair(pX + 1, pY + 1);
 		pawnCoords[1] = new intPair(pX - 1, pY + 1);
@@ -1032,37 +1025,38 @@ public class CPU {
 				posCoords.add(new intPair(i.getInt1(), i.getInt2()));
 			}
 		}
-		for(intPair i: posCoords){
+		for (intPair i : posCoords) {
 			int jumpingX = i.getInt1();
 			int jumpingY = i.getInt2();
 			Piece jumpingPiece = board[jumpingX][jumpingY].getPiece();
-			if(jumpingX - pX == 0 || jumpingY - pY == 0){
-				if(jumpingPiece instanceof Rook || jumpingPiece instanceof Queen){
+			if (jumpingX - pX == 0 || jumpingY - pY == 0) {
+				if (jumpingPiece instanceof Rook || jumpingPiece instanceof Queen) {
 					return true;
 				}
 			}
-			if(Math.abs(jumpingX -pX) == Math.abs(jumpingY - pY)){
-				if(Math.abs(jumpingX - pX) == 1 && jumpingY - pY == 1){
-					if(jumpingPiece instanceof Bishop || jumpingPiece instanceof Queen || jumpingPiece instanceof Pawn){
+			if (Math.abs(jumpingX - pX) == Math.abs(jumpingY - pY)) {
+				if (Math.abs(jumpingX - pX) == 1 && jumpingY - pY == 1) {
+					if (jumpingPiece instanceof Bishop || jumpingPiece instanceof Queen
+							|| jumpingPiece instanceof Pawn) {
 						return true;
 					}
 				}
-				if(jumpingPiece instanceof Bishop || jumpingPiece instanceof Queen){
+				if (jumpingPiece instanceof Bishop || jumpingPiece instanceof Queen) {
 					return true;
 				}
 			}
-			if((Math.abs(jumpingX - pX) == 1 && Math.abs(jumpingY - pY) == 2) ||(Math.abs(jumpingX - pX) == 2 && Math.abs(jumpingY - pY) == 1)){
-				if(jumpingPiece instanceof Knight){
+			if ((Math.abs(jumpingX - pX) == 1 && Math.abs(jumpingY - pY) == 2)
+					|| (Math.abs(jumpingX - pX) == 2 && Math.abs(jumpingY - pY) == 1)) {
+				if (jumpingPiece instanceof Knight) {
 					return true;
 				}
 			}
-			if((Math.abs(jumpingX - pX) <= 1 && Math.abs(jumpingY - pY) <= 1)){
-				if(jumpingPiece instanceof King){
+			if ((Math.abs(jumpingX - pX) <= 1 && Math.abs(jumpingY - pY) <= 1)) {
+				if (jumpingPiece instanceof King) {
 					return true;
 				}
 			}
-			
-			
+
 		}
 		return false;
 	}
@@ -1075,29 +1069,65 @@ public class CPU {
 		if (canBeJumped(targX, targY)) {
 			output = output - p1.getValue();
 		}
+		if (canBeJumped(p1.getX(), p1.getY())) {
+			output = output + p1.getValue();
+		}
 		return output;
 	}
-	
-	public boolean kingCanBeJumped(){
+
+	public boolean kingCanBeJumped() {
 		this.updateArrayList();
-		for(Piece p: myPieces){
-			if(p instanceof King){
-				if(canBeJumped(p.getX(), p.getY())){
+		for (Piece p : myPieces) {
+			if (p instanceof King) {
+				if (canBeJumped(p.getX(), p.getY())) {
 					return true;
-				}
-				else{
+				} else {
 					return false;
 				}
 			}
 		}
 		return false;
 	}
-	
 
+	public Tile[] moveKingToSafety() {
+		this.updateArrayList();
+		Tile[] output = null;
+		King k = null;
+		for (Piece p : myPieces) {
+			if (p instanceof King) {
+				k = (King) p;
+			}
+		}
+
+		int pX = k.getX();
+		int pY = k.getY();
+		ArrayList<intPair> posCoords = new ArrayList<intPair>();
+		posCoords.add(new intPair(pX, pY - 1));
+		posCoords.add(new intPair(pX + 1, pY - 1));
+		posCoords.add(new intPair(pX + 1, pY));
+		posCoords.add(new intPair(pX + 1, pY + 1));
+		posCoords.add(new intPair(pX, pY + 1));
+		posCoords.add(new intPair(pX - 1, pY + 1));
+		posCoords.add(new intPair(pX - 1, pY));
+		posCoords.add(new intPair(pX - 1, pY - 1));
+
+		Collections.shuffle(posCoords);
+		for (intPair i : posCoords) {
+			int tempX = i.getInt1();
+			int tempY = i.getInt2();
+			if (coordExists(tempX, tempY) && !canBeJumped(tempX, tempY)) {
+				output = new Tile[2];
+				output[0] = board[pX][pY];
+				output[1] = board[tempX][tempY];
+				return output;
+			}
+		}
+
+		return output;
+	}
 }
 
-
-//Needs a method that finds the best jump for that turn
-//A method for protecting a king in check
-//Check for move ability to move rooks, bishops, and queens less than maximum spaces available
-//Replace arrays with arraylists
+// Needs a method that finds the best jump for that turn
+// A method for protecting a king in check
+// Check for move ability to move rooks, bishops, and queens less than maximum
+// spaces available
