@@ -48,7 +48,10 @@ public class ChessBoard extends JFrame {
 		UIManager.put("MenuItem.selectionForeground", myBrown);
 		UIManager.put("MenuItem.font", myFont);
 		UIManager.put("Menu.font", myFont);
-
+		UIManager.put("TextField.background", myWhite);
+		UIManager.put("TextField.foreground", Color.BLACK);
+		UIManager.put("TextField.font", myFont);
+		
 		UIManager.put("Label.background", myBrown);
 		UIManager.put("Label.foreground", myWhite);
 		UIManager.put("Label.font", myFont);
@@ -364,7 +367,7 @@ public class ChessBoard extends JFrame {
 	private void cpuTurn(Tile[] move) {
 		DraggablePiece jumpedPiece = null;
 		if (move == null) {
-			JOptionPane.showMessageDialog(null, "The cpu is out of possible moves.", "Error",
+			JOptionPane.showMessageDialog(null, "The cpu is out of possible moves. This should not happen.", "Error",
 					JOptionPane.INFORMATION_MESSAGE);
 			System.exit(0);
 		}
@@ -416,11 +419,32 @@ public class ChessBoard extends JFrame {
 	}
 
 	private void promotePiece(DraggablePiece dp) {
-		char newType = 'Q';
+		String newType = "";
 		Piece p = dp.getMyPiece();
 		Piece newPiece = null;
-		if (newType == 'Q') {
+		if(dp.getMyPiece().getColor() == 'B'){
+			newType = "Queen";
+		}
+		while(!newType.trim().equalsIgnoreCase("Queen") && !newType.trim().equalsIgnoreCase("Rook") && !newType.trim().equalsIgnoreCase("Bishop") && !newType.trim().equalsIgnoreCase("Knight")){
+			newType = JOptionPane.showInputDialog("Enter the piece you want:");
+			if(newType == null){
+				newType = "";
+			}
+
+		}
+		if (newType.trim().equalsIgnoreCase("Queen")) {
 			newPiece = new Queen(p.getX(), p.getY(), p.getColor());
+		}
+		else if(newType.trim().equalsIgnoreCase("Rook")){
+			newPiece = new Rook(p.getX(), p.getY(), p.getColor());
+
+		}
+		else if(newType.trim().equalsIgnoreCase("Bishop")){
+			newPiece = new Bishop(p.getX(), p.getY(), p.getColor());
+
+		}
+		else{
+			newPiece = new Knight(p.getX(), p.getY(), p.getColor());
 		}
 		this.board[p.getX()][p.getY()].setPiece(p);
 		dp.setMyPiece(newPiece);

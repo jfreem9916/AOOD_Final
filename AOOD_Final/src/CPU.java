@@ -1137,7 +1137,7 @@ public class CPU {
 		for (intPair i : posCoords) {
 			int tempX = i.getInt1();
 			int tempY = i.getInt2();
-			if (coordExists(tempX, tempY) && !canBeJumped(tempX, tempY)) {
+			if (coordExists(tempX, tempY) && !coordHasPiece(tempX, tempY) && !canBeJumped(tempX, tempY)) {
 				output = new Tile[2];
 				output[0] = board[pX][pY];
 				output[1] = board[tempX][tempY];
