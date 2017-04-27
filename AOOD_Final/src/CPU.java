@@ -509,7 +509,8 @@ public class CPU {
 						return output;
 					}
 				}
-			} else {
+			} /*else {
+				
 				output[0] = board[pX][pY];
 				ArrayList<intPair> posCoords = new ArrayList<intPair>();
 				posCoords.add(new intPair(pX, pY - 1));
@@ -531,6 +532,7 @@ public class CPU {
 					}
 				}
 			}
+			*/
 
 		}
 
@@ -1025,6 +1027,26 @@ public class CPU {
 				posCoords.add(new intPair(i.getInt1(), i.getInt2()));
 			}
 		}
+		
+		
+		ArrayList<intPair> kingCoords = new ArrayList<intPair>();
+		kingCoords.add(new intPair(pX, pY - 1));
+		kingCoords.add(new intPair(pX + 1, pY - 1));
+		kingCoords.add(new intPair(pX + 1, pY));
+		kingCoords.add(new intPair(pX + 1, pY + 1));
+		kingCoords.add(new intPair(pX, pY + 1));
+		kingCoords.add(new intPair(pX - 1, pY + 1));
+		kingCoords.add(new intPair(pX - 1, pY));
+		kingCoords.add(new intPair(pX - 1, pY - 1));
+		
+		for (intPair i : kingCoords) {
+			if (this.coordExists(i.getInt1(), i.getInt2()) && this.coordHasPiece(i.getInt1(), i.getInt2())
+					&& this.pieceIsEnemy(i.getInt1(), i.getInt2())
+					&& board[i.getInt1()][i.getInt2()].getPiece() instanceof King) {
+				posCoords.add(new intPair(i.getInt1(), i.getInt2()));
+			}
+		}
+		
 		for (intPair i : posCoords) {
 			int jumpingX = i.getInt1();
 			int jumpingY = i.getInt2();

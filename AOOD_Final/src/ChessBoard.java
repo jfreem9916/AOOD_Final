@@ -28,7 +28,7 @@ public class ChessBoard extends JFrame {
 
 	public ChessBoard() {
 		super("Chess");
-
+		this.setResizable(false);
 		Font myFont = new Font("Apple Chancery", Font.PLAIN, 16);
 		Color myBrown = new Color(147, 88, 28);
 		Color myWhite = new Color(242, 240, 215);
@@ -53,8 +53,8 @@ public class ChessBoard extends JFrame {
 		UIManager.put("Label.foreground", myWhite);
 		UIManager.put("Label.font", myFont);
 
-		width = 696;
-		height = 718;
+		width = 686;
+		height = 708;
 		int tileSize = 85;
 
 		this.setSize(width, height);
@@ -363,7 +363,7 @@ public class ChessBoard extends JFrame {
 
 	private void cpuTurn(Tile[] move) {
 		DraggablePiece jumpedPiece = null;
-		if(move == null){
+		if (move == null) {
 			JOptionPane.showMessageDialog(null, "The cpu is out of possible moves.", "Error",
 					JOptionPane.INFORMATION_MESSAGE);
 			System.exit(0);
@@ -384,7 +384,7 @@ public class ChessBoard extends JFrame {
 
 			}
 		}
-		
+
 		DraggablePiece movedPiece = null;
 		for (DraggablePiece dp : cpuPieces) {
 
@@ -396,11 +396,9 @@ public class ChessBoard extends JFrame {
 		movedPiece.setBounds(newTile.getBounds());
 		oldTile.setPiece(null);
 		newTile.setPiece(movedPiece.getMyPiece());
-		movedPiece.getMyPiece().setX((int)(newTile.getBounds().getX() / 85));
-		movedPiece.getMyPiece().setY((int)(newTile.getBounds().getY() / 85));
+		movedPiece.getMyPiece().setX((int) (newTile.getBounds().getX() / 85));
+		movedPiece.getMyPiece().setY((int) (newTile.getBounds().getY() / 85));
 
-		
-		
 		if (movedPiece.getMyPiece() instanceof Pawn) {
 			((Pawn) movedPiece.getMyPiece()).moved();
 			if (movedPiece.getMyPiece().y == 7 && movedPiece.getMyPiece().getColor() == 'B') {
@@ -430,8 +428,6 @@ public class ChessBoard extends JFrame {
 
 	}
 
-	
-	
 	private void repaintAll() {
 		for (DraggablePiece p : playerPieces) {
 			p.repaint();
