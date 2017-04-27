@@ -235,7 +235,7 @@ public class ChessBoard extends JFrame {
 			p.getMyPiece().setY(jIndex);
 			if (jumpedPiece != null) {
 				if (jumpedPiece.getMyPiece() instanceof King || cpuPieces.size() == 1) {
-					JOptionPane.showMessageDialog(null, "jonah sux", "Winner",
+					JOptionPane.showMessageDialog(null, "You have won!", "Winner",
 							JOptionPane.INFORMATION_MESSAGE);
 					System.exit(0);
 				}
@@ -412,7 +412,7 @@ public class ChessBoard extends JFrame {
 
 		if (jumpedPiece != null) {
 			if (jumpedPiece.getMyPiece() instanceof King || playerPieces.size() == 1) {
-				JOptionPane.showMessageDialog(null, "EEEEEAAAASSSSYYYYY Dub", "Winner",
+				JOptionPane.showMessageDialog(null, "The CPU wins!", "Winner",
 						JOptionPane.INFORMATION_MESSAGE);
 				System.exit(0);
 			}

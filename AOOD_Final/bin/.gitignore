@@ -1,3 +1,11 @@
+/BishopB.png
+/BishopW.png
+/KingB.png
+/KingW.png
+/KnightB.png
+/KnightW.png
+/PawnB.png
+/PawnW.png
 /Bishop.class
 /CPU.class
 /ChessBoard$PieceClick.class
@@ -12,8 +20,5 @@
 /Player.class
 /Queen.class
 /Rook.class
-/RookB.png
-/RookW.png
-/Thumbs.db
 /Tile.class
 /intPair.class
