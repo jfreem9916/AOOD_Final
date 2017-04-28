@@ -264,10 +264,13 @@ public class ChessBoard extends JFrame {
 			tileFilled = true;
 			c = targetTile.getPiece().getColor();
 		}
-
 		boolean output = true;
 		output = output && p.canReachTile(targX, targY, tileFilled, c) && this.pathClear(p, targX, targY);
-
+		if(p instanceof King && canBeJumped(targX, targY)){
+			JOptionPane.showMessageDialog(null, "Moving there puts your King at risk!", "Invalid Move",
+					JOptionPane.INFORMATION_MESSAGE);
+			return false;
+		}
 		return output;
 	}
 
