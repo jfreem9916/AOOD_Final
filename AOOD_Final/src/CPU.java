@@ -924,7 +924,6 @@ public class CPU {
 
 	public boolean canBeJumped(int pX, int pY) {
 		ArrayList<intPair> posCoords = new ArrayList<intPair>();
-		System.out.println("pX: " + pX + ", pY: " + pY);
 		// Rook half
 		int tempX = pX;
 		for (int i = pX + 1; i < 8 && board[i][pY].getPiece() == null; i++) {
@@ -944,7 +943,6 @@ public class CPU {
 
 		int tempY = pY;
 		for (int i = pY + 1; i < 8 && board[pX][i].getPiece() == null; i++) {
-			System.out.println("i: " + i);
 			tempY = i;
 		}
 		if (this.coordExists(pX, tempY + 1) && this.coordHasPiece(pX, tempY + 1) && this.pieceIsEnemy(pX, tempY + 1)) {

@@ -417,6 +417,12 @@ public class ChessBoard extends JFrame {
 				System.exit(0);
 			}
 		}
+		
+		
+		if (this.kingCanBeJumped()) {
+			JOptionPane.showMessageDialog(null, "Your king is in check!", "Check",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
 	private void promotePiece(DraggablePiece dp) {
@@ -462,7 +468,205 @@ public class ChessBoard extends JFrame {
 
 		}
 	}
+	public boolean coordExists(int x, int y) {
+		if (x < 0 || x > 7 || y > 7 || y < 0) {
+			return false;
+		}
+		return true;
+	}
 
+	public boolean coordHasPiece(int x, int y) {
+		if (!coordExists(x, y)) {
+			return false;
+		}
+		if (board[x][y].getPiece() == null) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean pieceIsEnemy(int x, int y) {
+		if (!coordHasPiece(x, y)) {
+			return false;
+		}
+		if (board[x][y].getPiece().getColor() == 'W') {
+			return false;
+		}
+		return true;
+	}
+	public boolean canBeJumped(int pX, int pY) {
+		ArrayList<intPair> posCoords = new ArrayList<intPair>();
+		// Rook half
+		int tempX = pX;
+		for (int i = pX + 1; i < 8 && board[i][pY].getPiece() == null; i++) {
+			tempX = i;
+		}
+		if (this.coordExists(tempX + 1, pY) && this.coordHasPiece(tempX + 1, pY) && this.pieceIsEnemy(tempX + 1, pY)) {
+			posCoords.add(new intPair(tempX + 1, pY));
+		}
+
+		tempX = pX;
+		for (int i = pX - 1; i >= 0 && board[i][pY].getPiece() == null; i--) {
+			tempX = i;
+		}
+		if (this.coordExists(tempX - 1, pY) && this.coordHasPiece(tempX - 1, pY) && this.pieceIsEnemy(tempX - 1, pY)) {
+			posCoords.add(new intPair(tempX - 1, pY));
+		}
+
+		int tempY = pY;
+		for (int i = pY + 1; i < 8 && board[pX][i].getPiece() == null; i++) {
+			tempY = i;
+		}
+		if (this.coordExists(pX, tempY + 1) && this.coordHasPiece(pX, tempY + 1) && this.pieceIsEnemy(pX, tempY + 1)) {
+			posCoords.add(new intPair(pX, tempY + 1));
+		}
+
+		tempY = pY;
+		for (int i = pY - 1; i >= 0 && board[pX][i].getPiece() == null; i--) {
+			tempY = i;
+		}
+		if (this.coordExists(pX, tempY - 1) && this.coordHasPiece(pX, tempY - 1) && this.pieceIsEnemy(pX, tempY - 1)) {
+			posCoords.add(new intPair(pX, tempY - 1));
+		}
+
+		// Bishop half
+		int tempChange = 0;
+		for (int i = 1; pX + i < 8 && pY + i < 8 && board[pX + i][pY + i].getPiece() == null; i++) {
+			tempChange = i;
+		}
+		if (this.coordExists(pX + tempChange + 1, pY + tempChange + 1)
+				&& this.coordHasPiece(pX + tempChange + 1, pY + tempChange + 1)
+				&& this.pieceIsEnemy(pX + tempChange + 1, pY + tempChange + 1)) {
+			posCoords.add(new intPair(pX + tempChange + 1, pY + tempChange + 1));
+		}
+
+		tempChange = 0;
+		for (int i = 1; pX - i >= 0 && pY - i >= 0 && board[pX - i][pY - i].getPiece() == null; i++) {
+			tempChange = i;
+		}
+		if (this.coordExists(pX - tempChange - 1, pY - tempChange - 1)
+				&& this.coordHasPiece(pX - tempChange - 1, pY - tempChange - 1)
+				&& this.pieceIsEnemy(pX - tempChange - 1, pY - tempChange - 1)) {
+			posCoords.add(new intPair(pX - tempChange - 1, pY - tempChange - 1));
+		}
+
+		tempChange = 0;
+		for (int i = 1; pX + i < 8 && pY - i >= 0 && board[pX + i][pY - i].getPiece() == null; i++) {
+			tempChange = i;
+		}
+		if (this.coordExists(pX + tempChange + 1, pY - tempChange - 1)
+				&& this.coordHasPiece(pX + tempChange + 1, pY - tempChange - 1)
+				&& this.pieceIsEnemy(pX + tempChange + 1, pY - tempChange - 1)) {
+			posCoords.add(new intPair(pX + tempChange + 1, pY - tempChange - 1));
+		}
+
+		tempChange = 0;
+		for (int i = 1; pX - i >= 0 && pY + i < 8 && board[pX - i][pY + i].getPiece() == null; i++) {
+			tempChange = i;
+		}
+		if (this.coordExists(pX - tempChange - 1, pY + tempChange + 1)
+				&& this.coordHasPiece(pX - tempChange - 1, pY + tempChange + 1)
+				&& this.pieceIsEnemy(pX - tempChange - 1, pY + tempChange + 1)) {
+			posCoords.add(new intPair(pX - tempChange - 1, pY + tempChange + 1));
+		}
+
+		intPair[] knightCoords = new intPair[8];
+		knightCoords[0] = new intPair(pX + 1, pY - 2);
+		knightCoords[1] = new intPair(pX + 2, pY - 1);
+		knightCoords[2] = new intPair(pX + 2, pY + 1);
+		knightCoords[3] = new intPair(pX + 1, pY + 2);
+		knightCoords[4] = new intPair(pX - 1, pY + 2);
+		knightCoords[5] = new intPair(pX - 2, pY + 1);
+		knightCoords[6] = new intPair(pX - 2, pY - 1);
+		knightCoords[7] = new intPair(pX - 1, pY - 2);
+
+		intPair[] pawnCoords = new intPair[2];
+		pawnCoords[0] = new intPair(pX + 1, pY - 1);
+		pawnCoords[1] = new intPair(pX - 1, pY - 1);
+
+		for (intPair i : knightCoords) {
+			if (this.coordExists(i.getInt1(), i.getInt2()) && this.coordHasPiece(i.getInt1(), i.getInt2())
+					&& this.pieceIsEnemy(i.getInt1(), i.getInt2())
+					&& board[i.getInt1()][i.getInt2()].getPiece() instanceof Knight) {
+				posCoords.add(new intPair(i.getInt1(), i.getInt2()));
+			}
+		}
+		for (intPair i : pawnCoords) {
+			if (this.coordExists(i.getInt1(), i.getInt2()) && this.coordHasPiece(i.getInt1(), i.getInt2())
+					&& this.pieceIsEnemy(i.getInt1(), i.getInt2())
+					&& board[i.getInt1()][i.getInt2()].getPiece() instanceof Pawn) {
+				posCoords.add(new intPair(i.getInt1(), i.getInt2()));
+			}
+		}
+		
+		
+		ArrayList<intPair> kingCoords = new ArrayList<intPair>();
+		kingCoords.add(new intPair(pX, pY - 1));
+		kingCoords.add(new intPair(pX + 1, pY - 1));
+		kingCoords.add(new intPair(pX + 1, pY));
+		kingCoords.add(new intPair(pX + 1, pY + 1));
+		kingCoords.add(new intPair(pX, pY + 1));
+		kingCoords.add(new intPair(pX - 1, pY + 1));
+		kingCoords.add(new intPair(pX - 1, pY));
+		kingCoords.add(new intPair(pX - 1, pY - 1));
+		
+		for (intPair i : kingCoords) {
+			if (this.coordExists(i.getInt1(), i.getInt2()) && this.coordHasPiece(i.getInt1(), i.getInt2())
+					&& this.pieceIsEnemy(i.getInt1(), i.getInt2())
+					&& board[i.getInt1()][i.getInt2()].getPiece() instanceof King) {
+				posCoords.add(new intPair(i.getInt1(), i.getInt2()));
+			}
+		}
+		
+		for (intPair i : posCoords) {
+			int jumpingX = i.getInt1();
+			int jumpingY = i.getInt2();
+			Piece jumpingPiece = board[jumpingX][jumpingY].getPiece();
+			if (jumpingX - pX == 0 || jumpingY - pY == 0) {
+				if (jumpingPiece instanceof Rook || jumpingPiece instanceof Queen) {
+					return true;
+				}
+			}
+			if (Math.abs(jumpingX - pX) == Math.abs(jumpingY - pY)) {
+				if (Math.abs(jumpingX - pX) == 1 && jumpingY - pY == -1) {
+					if (jumpingPiece instanceof Bishop || jumpingPiece instanceof Queen
+							|| jumpingPiece instanceof Pawn) {
+						return true;
+					}
+				}
+				if (jumpingPiece instanceof Bishop || jumpingPiece instanceof Queen) {
+					return true;
+				}
+			}
+			if ((Math.abs(jumpingX - pX) == 1 && Math.abs(jumpingY - pY) == 2)
+					|| (Math.abs(jumpingX - pX) == 2 && Math.abs(jumpingY - pY) == 1)) {
+				if (jumpingPiece instanceof Knight) {
+					return true;
+				}
+			}
+			if ((Math.abs(jumpingX - pX) <= 1 && Math.abs(jumpingY - pY) <= 1)) {
+				if (jumpingPiece instanceof King) {
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+	
+	
+	public boolean kingCanBeJumped() {
+		for (DraggablePiece p : playerPieces) {
+			if (p.getMyPiece() instanceof King) {
+				if (canBeJumped(p.getMyPiece().getX(), p.getMyPiece().getY())) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		}
+		return false;
+	}
 	private void reorderComponents(Component compo) {
 
 		Component[] components = table.getComponents();
